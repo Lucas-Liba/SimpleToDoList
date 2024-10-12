@@ -9,16 +9,24 @@ public class Main {
         boolean end=false;
         System.out.println("Bienvenido al gestor de tareas");
         do{
-            System.out.println("Ingrese 1 para ver la lista de tareas, 2 para agregar un item,0 para salir");
+            System.out.println("Ingrese 1 para ver la lista de tareas, 2 para agregar un item,3 para actualizar,0 para salir: ");
             accion = sc.nextInt();
-            if (accion == 1){
-                listaDeTareas.mostrarLista();
-            } else if (accion==2) {
-                listaDeTareas.crearItem();
-            }else if (accion==0){
-                end = true;
-            }else{
-                System.out.println("No se pudo interpretar el comando");
+            switch (accion){
+                case 1:
+                    listaDeTareas.mostrarLista();
+                    break;
+                case 2:
+                    listaDeTareas.crearItem();
+                    break;
+                case 3:
+                    listaDeTareas.actualizarEstado();
+                    break;
+                case 0:
+                    end = true;
+                    break;
+                default:
+                    System.out.println("No se pudo interpretar el comando");
+                    break;
             }
         }while(!end);
 
@@ -78,10 +86,25 @@ class toDoList{
                 System.out.println("Titulo: " + i.getTitulo());
                 System.out.println("Mensaje: " + i.getMensaje());
                 System.out.println((i.isCompletada() ? "Completada" : "No completada"));
+                System.out.println("-------------------------------");
             }
         }else{
             System.out.println("La lista esta vacia");
         }
 
+    }
+    public void actualizarEstado(){
+        System.out.println("Escribe el titulo de la tarea que quieres actualizar:");
+        String titulo = sc.nextLine();
+        boolean encontrada=false;
+        for(ToDoItem i : listaDeTareas){
+            if(i.getTitulo().equals(titulo)){
+                i.setCompletada(!(i.isCompletada()));
+                encontrada = true;
+            }
+        }
+        if(!encontrada){
+            System.out.println("No se encuentra una tarea con titulo: "+ titulo);
+        }
     }
 }
